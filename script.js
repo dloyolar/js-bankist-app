@@ -43,7 +43,7 @@ const account2 = {
     '2020-02-05T16:33:06.386Z',
     '2020-04-10T14:43:26.374Z',
     '2020-06-25T18:49:59.371Z',
-    '2020-07-26T12:01:20.894Z',
+    '2021-11-05T12:01:20.894Z',
   ],
   currency: 'USD',
   locale: 'en-US',
@@ -91,9 +91,9 @@ const formatMovementsDate = (date, locale) => {
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed <= 7) return `${daysPassed} days ago`;
 
-  const day = `${date.getDate()}`.padStart(2, 0);
-  const month = `${date.getMonth() + 1}`.padStart(2, 0);
-  const year = date.getFullYear();
+  // const day = `${date.getDate()}`.padStart(2, 0);
+  // const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  // const year = date.getFullYear();
 
   // return `${day}/${month}/${year}`;
   return new Intl.DateTimeFormat(locale).format(date);
@@ -259,7 +259,13 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.movementsDates.push(new Date().toISOString());
     recieverAcc.movementsDates.push(new Date().toISOString());
 
-    alert(`You transfered $${amount} to ${recieverAcc.owner}`);
+    alert(
+      `You transfered ${formatCur(
+        amount,
+        currentAccount.locale,
+        currentAccount.currency
+      )} to ${recieverAcc.owner}`
+    );
     // Update UI
     updateUI(currentAccount);
   }
@@ -279,8 +285,14 @@ btnLoan.addEventListener('click', function (e) {
 
       // Update UI
       updateUI(currentAccount);
-      alert(`🎉 You took out a loan of $${amount} `);
-    }, 2500);
+      alert(
+        `🎉 You took out a loan of ${formatCur(
+          amount,
+          currentAccount.locale,
+          currentAccount.currency
+        )} `
+      );
+    }, 1000);
 
     inputLoanAmount.value = '';
   } else {
